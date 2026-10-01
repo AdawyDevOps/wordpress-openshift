@@ -1,0 +1,22 @@
+# Secrets and credentials
+*.secret.yaml
+secret.yaml
+.env
+.env.*
+*.key
+*.pem
+
+# WordPress local files
+/wordpress/
+*.tar.gz
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+*.swp
+*.swo
+*~
