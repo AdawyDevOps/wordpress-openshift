@@ -5,10 +5,14 @@ metadata:
   labels:
     app: wordpress
 spec:
+  host: wordpress-wordpress.apps.ocp4.example.com
   to:
     kind: Service
     name: wordpress
     weight: 100
   port:
     targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
