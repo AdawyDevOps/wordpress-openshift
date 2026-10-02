@@ -35,42 +35,43 @@ flowchart TB
     MySQLService --> MySQLPod
     MySQLPod --> MySQLPVC
     HPA -. scales .-> WPPod
+```
 
 ## Technologies
 
-* Red Hat OpenShift
-* Kubernetes
-* Containers
-* WordPress
-* MySQL
-* NFS Persistent Storage
-* PersistentVolumeClaims (PVCs)
-* Kubernetes Secrets
-* Resource Requests and Limits
-* Readiness and Liveness Probes
-* Horizontal Pod Autoscaler (HPA)
-* OpenShift Routes
+- Red Hat OpenShift
+- Kubernetes
+- Containers
+- WordPress
+- MySQL
+- NFS Persistent Storage
+- PersistentVolumeClaims (PVCs)
+- Kubernetes Secrets
+- Resource Requests and Limits
+- Readiness and Liveness Probes
+- Horizontal Pod Autoscaler (HPA)
+- OpenShift Routes
 
 ## Project Components
 
 ### WordPress
 
-* Deployment
-* ClusterIP Service
-* OpenShift Route
-* Readiness Probe
-* Liveness Probe
-* CPU and memory requests/limits
-* Persistent storage using a PVC
-* Horizontal Pod Autoscaler
+- Deployment
+- ClusterIP Service
+- OpenShift Route
+- Readiness Probe
+- Liveness Probe
+- CPU and memory requests/limits
+- Persistent storage using a PVC
+- Horizontal Pod Autoscaler
 
 ### MySQL
 
-* Deployment
-* ClusterIP Service
-* Persistent storage using a PVC
-* Database credentials managed through a Kubernetes Secret
-* CPU and memory requests/limits
+- Deployment
+- ClusterIP Service
+- Persistent storage using a PVC
+- Database credentials managed through a Kubernetes Secret
+- CPU and memory requests/limits
 
 ## Storage
 
@@ -78,17 +79,17 @@ The application uses the `nfs-storage` StorageClass available in the OpenShift t
 
 ### WordPress
 
-* Storage: 2Gi
-* Access Mode: ReadWriteMany (RWX)
-* Mount Path: `/var/www/html`
+- Storage: 2Gi
+- Access Mode: ReadWriteMany (RWX)
+- Mount Path: `/var/www/html`
 
 RWX allows multiple WordPress replicas to access the shared application files.
 
 ### MySQL
 
-* Storage: 1Gi
-* Access Mode: ReadWriteOnce (RWO)
-* Mount Path: `/var/lib/mysql/data`
+- Storage: 1Gi
+- Access Mode: ReadWriteOnce (RWO)
+- Mount Path: `/var/lib/mysql/data`
 
 MySQL is deployed as a single replica in this project.
 
@@ -100,15 +101,15 @@ Resource requests and limits are configured for both workloads.
 
 | Resource | Request | Limit |
 | -------- | ------: | ----: |
-| CPU      |    100m |  500m |
-| Memory   |   128Mi | 512Mi |
+| CPU      | 100m    | 500m  |
+| Memory   | 128Mi   | 512Mi |
 
 ### MySQL
 
 | Resource | Request | Limit |
 | -------- | ------: | ----: |
-| CPU      |    250m | 1 CPU |
-| Memory   |   256Mi |   1Gi |
+| CPU      | 250m    | 1 CPU |
+| Memory   | 256Mi   | 1Gi   |
 
 ## Health Checks
 
@@ -128,9 +129,9 @@ Determines whether the WordPress application is still healthy.
 
 A Horizontal Pod Autoscaler is configured for the WordPress Deployment.
 
-* Minimum replicas: 1
-* Maximum replicas: 3
-* CPU target: 70%
+- Minimum replicas: 1
+- Maximum replicas: 3
+- CPU target: 70%
 
 The HPA uses CPU utilization relative to the configured CPU requests.
 
@@ -150,18 +151,25 @@ Database credentials are managed through a Kubernetes Secret.
 
 The real Secret is intentionally excluded from version control.
 
-Create your local Secret from the provided template:
+The repository contains only:
+
+`manifests/mysql/secret.example.yaml`
+
+This file is a template only and must **not** be applied to the cluster.
+
+Create the real Secret directly in OpenShift using environment-specific credentials:
 
 ```bash
-cp manifests/mysql/secret.example.yaml manifests/mysql/secret.yaml
+oc create secret generic mysql-secret \
+  --from-literal=MYSQL_USER='<YOUR_USER>' \
+  --from-literal=MYSQL_PASSWORD='<YOUR_PASSWORD>' \
+  --from-literal=MYSQL_DATABASE='<YOUR_DATABASE>'
 ```
 
-Edit the generated file and replace the placeholder values with your own credentials.
-
-Then apply it:
+Verify that the Secret exists:
 
 ```bash
-oc apply -f manifests/mysql/secret.yaml
+oc get secret mysql-secret
 ```
 
 The real Secret must never be committed to Git.
@@ -197,22 +205,23 @@ oc new-project wordpress
 
 ### 2. Create the Database Secret
 
-```bash
-cp manifests/mysql/secret.example.yaml manifests/mysql/secret.yaml
-```
-
-Edit the Secret and apply it:
+Create the Secret directly in OpenShift:
 
 ```bash
-oc apply -f manifests/mysql/secret.yaml
+oc create secret generic mysql-secret \
+  --from-literal=MYSQL_USER='<YOUR_USER>' \
+  --from-literal=MYSQL_PASSWORD='<YOUR_PASSWORD>' \
+  --from-literal=MYSQL_DATABASE='<YOUR_DATABASE>'
 ```
+
+Do not apply `manifests/mysql/secret.example.yaml`.
 
 ### 3. Deploy MySQL
 
 ```bash
-oc apply -f manifests/mysql/pvc.yaml
-oc apply -f manifests/mysql/deployment.yaml
-oc apply -f manifests/mysql/service.yaml
+oc apply -f manifests/mysql/pvc.yaml \
+  -f manifests/mysql/deployment.yaml \
+  -f manifests/mysql/service.yaml
 ```
 
 Verify:
@@ -226,11 +235,7 @@ oc get svc
 ### 4. Deploy WordPress
 
 ```bash
-oc apply -f manifests/wordpress/pvc.yaml
-oc apply -f manifests/wordpress/deployment.yaml
-oc apply -f manifests/wordpress/service.yaml
-oc apply -f manifests/wordpress/route.yaml
-oc apply -f manifests/wordpress/hpa.yaml
+oc apply -f manifests/wordpress/
 ```
 
 Verify:
@@ -241,6 +246,26 @@ oc get pvc
 oc get svc
 oc get route
 oc get hpa
+```
+
+### 5. Verify HTTPS
+
+The OpenShift Route terminates TLS at the router and redirects HTTP traffic to HTTPS.
+
+```bash
+oc get route wordpress
+```
+
+Test the HTTP to HTTPS redirect:
+
+```bash
+curl -I http://<WORDPRESS_ROUTE_HOST>
+```
+
+Test HTTPS:
+
+```bash
+curl -I https://<WORDPRESS_ROUTE_HOST>
 ```
 
 ## Persistence Testing
@@ -254,7 +279,7 @@ oc delete pod -l app=mysql-db
 oc get pods -w
 ```
 
-The database data remains available through the persistent volume.
+The MySQL Pod is recreated and its data remains available through the persistent volume.
 
 ### WordPress
 
@@ -265,7 +290,7 @@ oc delete pod -l app=wordpress
 oc get pods -w
 ```
 
-The WordPress files remain available through the persistent volume.
+The WordPress Pod is recreated and its application files remain available through the persistent volume.
 
 ## Verification and Troubleshooting
 
@@ -287,14 +312,13 @@ oc logs deployment/mysql-db
 
 This project demonstrates practical experience with:
 
-* Kubernetes/OpenShift Deployments
-* Services and service discovery
-* OpenShift Routes
-* Persistent storage and PVCs
-* Kubernetes Secrets
-* Resource requests and limits
-* Readiness and liveness probes
-* Horizontal Pod Autoscaling
-* Application persistence
-* Basic OpenShift troubleshooting
-
+- Kubernetes/OpenShift Deployments
+- Services and service discovery
+- OpenShift Routes
+- Persistent storage and PVCs
+- Kubernetes Secrets
+- Resource requests and limits
+- Readiness and liveness probes
+- Horizontal Pod Autoscaling
+- Application persistence
+- Basic OpenShift troubleshooting
