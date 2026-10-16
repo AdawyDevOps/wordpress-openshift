@@ -4,38 +4,7 @@ A containerized WordPress application deployed on Red Hat OpenShift with a MySQL
 
 ## Architecture
 
-```mermaid
-flowchart TB
-    Internet((Internet))
-
-    subgraph OpenShift["Red Hat OpenShift"]
-        Route["OpenShift Route"]
-
-        WPService["WordPress Service<br/>ClusterIP :8080"]
-
-        subgraph WP["WordPress Workload"]
-            WPPod["WordPress Pod(s)<br/>Readiness + Liveness<br/>Requests / Limits"]
-            HPA["HPA<br/>1 → 3 replicas"]
-            WPPVC[("WordPress PVC<br/>RWX · 2Gi")]
-        end
-
-        MySQLService["MySQL Service<br/>ClusterIP :3306"]
-
-        subgraph DB["MySQL Workload"]
-            MySQLPod["MySQL Pod<br/>Secret-based credentials"]
-            MySQLPVC[("MySQL PVC<br/>RWO · 1Gi")]
-        end
-    end
-
-    Internet --> Route
-    Route --> WPService
-    WPService --> WPPod
-    WPPod --> WPPVC
-    WPPod --> MySQLService
-    MySQLService --> MySQLPod
-    MySQLPod --> MySQLPVC
-    HPA -. scales .-> WPPod
-```
+![Architecture](docs/architecture.svg)
 
 ## Technologies
 
