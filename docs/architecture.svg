@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="DejaVu Sans, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0f1c"/>
+      <stop offset="1" stop-color="#141d33"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ee0000"/>
+      <stop offset="1" stop-color="#ff6a3d"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9fb3d9"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f5b942"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3ddc97"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <!-- subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.025">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/>
+    <path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
+  </g>
+
+  <!-- Title -->
+  <rect x="60" y="48" width="8" height="64" rx="4" fill="url(#red)"/>
+  <text x="84" y="80" font-size="38" font-weight="700" fill="#ffffff">WordPress on Red Hat OpenShift</text>
+  <text x="84" y="108" font-size="18" fill="#8ea2c8">Containerized WordPress + MySQL · persistent storage · secrets · health probes · autoscaling</text>
+
+  <!-- Internet -->
+  <g filter="url(#shadow)">
+    <circle cx="125" cy="435" r="62" fill="#1b2744" stroke="#5b7bd5" stroke-width="2"/>
+  </g>
+  <circle cx="125" cy="420" r="16" fill="none" stroke="#9fb3d9" stroke-width="2"/>
+  <ellipse cx="125" cy="420" rx="7" ry="16" fill="none" stroke="#9fb3d9" stroke-width="1.5"/>
+  <path d="M109 420H141" stroke="#9fb3d9" stroke-width="1.5"/>
+  <text x="125" y="465" font-size="17" font-weight="600" fill="#e6edff" text-anchor="middle">Users</text>
+  <text x="125" y="485" font-size="13" fill="#8ea2c8" text-anchor="middle">Internet</text>
+
+  <!-- Internet -> Route -->
+  <path d="M188 435H268" stroke="#9fb3d9" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="214" y="424" font-size="12" fill="#8ea2c8" text-anchor="middle">HTTPS</text>
+
+  <!-- OpenShift cluster -->
+  <rect x="240" y="150" width="1320" height="690" rx="22" fill="#0f1830" fill-opacity="0.75" stroke="#ee0000" stroke-width="2" stroke-dasharray="10 7"/>
+  <rect x="268" y="132" width="410" height="36" rx="18" fill="url(#red)"/>
+  <text x="473" y="156" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">Red Hat OpenShift · project: wordpress</text>
+
+  <!-- Route -->
+  <g filter="url(#shadow)">
+    <rect x="270" y="380" width="170" height="110" rx="14" fill="#1d2b4f" stroke="#6d8fe8" stroke-width="2"/>
+  </g>
+  <text x="355" y="418" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">Route</text>
+  <text x="355" y="442" font-size="13" fill="#b7c6e6" text-anchor="middle">TLS edge termination</text>
+  <text x="355" y="462" font-size="13" fill="#b7c6e6" text-anchor="middle">HTTP → HTTPS redirect</text>
+
+  <path d="M440 435H478" stroke="#9fb3d9" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- WordPress Service -->
+  <g filter="url(#shadow)">
+    <rect x="480" y="380" width="160" height="110" rx="14" fill="#1d2b4f" stroke="#6d8fe8" stroke-width="2"/>
+  </g>
+  <text x="560" y="418" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">Service</text>
+  <text x="560" y="442" font-size="13" fill="#b7c6e6" text-anchor="middle">wordpress</text>
+  <text x="560" y="462" font-size="13" fill="#b7c6e6" text-anchor="middle">ClusterIP :8080</text>
+
+  <path d="M640 435H678" stroke="#9fb3d9" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- WordPress Deployment group -->
+  <g filter="url(#shadow)">
+    <rect x="680" y="195" width="330" height="425" rx="18" fill="#12254a" stroke="#4aa3ff" stroke-width="2"/>
+  </g>
+  <rect x="680" y="195" width="330" height="44" rx="18" fill="#1c3a74"/>
+  <rect x="680" y="221" width="330" height="18" fill="#1c3a74"/>
+  <text x="845" y="224" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">WordPress Deployment</text>
+
+  <!-- pods -->
+  <rect x="705" y="255" width="280" height="56" rx="10" fill="#1f4fa3" stroke="#7cc0ff" stroke-width="1.5"/>
+  <text x="845" y="278" font-size="15" font-weight="600" fill="#fff" text-anchor="middle">Pod 1</text>
+  <text x="845" y="298" font-size="12" fill="#cfe4ff" text-anchor="middle">wordpress · always running</text>
+  <rect x="705" y="320" width="280" height="56" rx="10" fill="#1f4fa3" fill-opacity="0.35" stroke="#7cc0ff" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="845" y="343" font-size="15" font-weight="600" fill="#dbeaff" text-anchor="middle">Pod 2</text>
+  <text x="845" y="363" font-size="12" fill="#a9c9f0" text-anchor="middle">scaled up on demand</text>
+  <rect x="705" y="385" width="280" height="56" rx="10" fill="#1f4fa3" fill-opacity="0.35" stroke="#7cc0ff" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="845" y="408" font-size="15" font-weight="600" fill="#dbeaff" text-anchor="middle">Pod 3</text>
+  <text x="845" y="428" font-size="12" fill="#a9c9f0" text-anchor="middle">scaled up on demand</text>
+
+  <!-- probes -->
+  <rect x="705" y="455" width="136" height="38" rx="8" fill="#0f3d33" stroke="#3ddc97" stroke-width="1.5"/>
+  <text x="773" y="471" font-size="12" font-weight="700" fill="#3ddc97" text-anchor="middle">Readiness</text>
+  <text x="773" y="486" font-size="11" fill="#a6ecd0" text-anchor="middle">/wp-login.php</text>
+  <rect x="849" y="455" width="136" height="38" rx="8" fill="#0f3d33" stroke="#3ddc97" stroke-width="1.5"/>
+  <text x="917" y="471" font-size="12" font-weight="700" fill="#3ddc97" text-anchor="middle">Liveness</text>
+  <text x="917" y="486" font-size="11" fill="#a6ecd0" text-anchor="middle">/wp-login.php</text>
+
+  <!-- resources -->
+  <rect x="705" y="503" width="280" height="38" rx="8" fill="#1a2c55" stroke="#4b6bb3" stroke-width="1.2"/>
+  <text x="845" y="519" font-size="12" font-weight="700" fill="#cfe0ff" text-anchor="middle">Requests / Limits</text>
+  <text x="845" y="534" font-size="11" fill="#9fb3d9" text-anchor="middle">CPU 100m → 500m · RAM 128Mi → 512Mi</text>
+
+  <!-- HPA -->
+  <rect x="705" y="552" width="280" height="50" rx="10" fill="#3a2a0a" stroke="#f5b942" stroke-width="1.8"/>
+  <text x="845" y="573" font-size="14" font-weight="700" fill="#f5b942" text-anchor="middle">HPA · 1 → 3 replicas</text>
+  <text x="845" y="591" font-size="12" fill="#f3d796" text-anchor="middle">scales at 70% CPU utilization</text>
+  <path d="M1010 577 C1030 577 1030 420 1013 420" fill="none" stroke="#f5b942" stroke-width="0"/>
+
+  <!-- WordPress -> MySQL Service -->
+  <path d="M1010 435H1048" stroke="#9fb3d9" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- MySQL Service -->
+  <g filter="url(#shadow)">
+    <rect x="1050" y="380" width="150" height="110" rx="14" fill="#1d2b4f" stroke="#6d8fe8" stroke-width="2"/>
+  </g>
+  <text x="1125" y="418" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">Service</text>
+  <text x="1125" y="442" font-size="13" fill="#b7c6e6" text-anchor="middle">mysql-db</text>
+  <text x="1125" y="462" font-size="13" fill="#b7c6e6" text-anchor="middle">ClusterIP :3306</text>
+  <text x="1125" y="506" font-size="11" fill="#8ea2c8" text-anchor="middle">internal only</text>
+
+  <path d="M1200 435H1238" stroke="#9fb3d9" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- MySQL Deployment group -->
+  <g filter="url(#shadow)">
+    <rect x="1240" y="300" width="290" height="320" rx="18" fill="#2a1630" stroke="#d46bff" stroke-width="2"/>
+  </g>
+  <rect x="1240" y="300" width="290" height="44" rx="18" fill="#4a2358"/>
+  <rect x="1240" y="326" width="290" height="18" fill="#4a2358"/>
+  <text x="1385" y="329" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">MySQL Deployment</text>
+
+  <rect x="1262" y="362" width="246" height="64" rx="10" fill="#7a2f93" stroke="#e6a4ff" stroke-width="1.5"/>
+  <text x="1385" y="388" font-size="15" font-weight="600" fill="#fff" text-anchor="middle">Pod · mysql-db</text>
+  <text x="1385" y="408" font-size="12" fill="#f0d3ff" text-anchor="middle">single replica (RWO volume)</text>
+
+  <rect x="1262" y="440" width="246" height="56" rx="10" fill="#3a2a0a" stroke="#f5b942" stroke-width="1.8"/>
+  <text x="1385" y="463" font-size="14" font-weight="700" fill="#f5b942" text-anchor="middle">Secret · mysql-secret</text>
+  <text x="1385" y="482" font-size="12" fill="#f3d796" text-anchor="middle">user · password · database</text>
+
+  <rect x="1262" y="510" width="246" height="38" rx="8" fill="#3a1f45" stroke="#a45bc4" stroke-width="1.2"/>
+  <text x="1385" y="526" font-size="12" font-weight="700" fill="#f0d3ff" text-anchor="middle">Requests / Limits</text>
+  <text x="1385" y="541" font-size="11" fill="#d1a9e6" text-anchor="middle">CPU 250m → 1 · RAM 256Mi → 1Gi</text>
+
+  <text x="1385" y="590" font-size="11" fill="#d1a9e6" text-anchor="middle">real Secret is never committed to Git</text>
+
+  <!-- Storage: PVCs -->
+  <path d="M845 620V662" stroke="#3ddc97" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <path d="M1385 620V662" stroke="#3ddc97" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="705" y="664" width="280" height="76" rx="12" fill="#0f3d33" stroke="#3ddc97" stroke-width="2"/>
+  </g>
+  <text x="845" y="692" font-size="16" font-weight="700" fill="#3ddc97" text-anchor="middle">PVC · wordpress</text>
+  <text x="845" y="713" font-size="13" fill="#a6ecd0" text-anchor="middle">RWX · 2Gi · /var/www/html</text>
+  <text x="845" y="730" font-size="11" fill="#7fcfb0" text-anchor="middle">shared across all replicas</text>
+
+  <g filter="url(#shadow)">
+    <rect x="1245" y="664" width="280" height="76" rx="12" fill="#0f3d33" stroke="#3ddc97" stroke-width="2"/>
+  </g>
+  <text x="1385" y="692" font-size="16" font-weight="700" fill="#3ddc97" text-anchor="middle">PVC · mysql</text>
+  <text x="1385" y="713" font-size="13" fill="#a6ecd0" text-anchor="middle">RWO · 1Gi · /var/lib/mysql/data</text>
+  <text x="1385" y="730" font-size="11" fill="#7fcfb0" text-anchor="middle">survives pod restarts</text>
+
+  <!-- NFS bar -->
+  <path d="M845 740V774M1385 740V774" stroke="#3ddc97" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="705" y="776" width="820" height="44" rx="12" fill="#0c2a24" stroke="#3ddc97" stroke-width="1.8"/>
+  <text x="1115" y="803" font-size="15" font-weight="700" fill="#3ddc97" text-anchor="middle">NFS · StorageClass nfs-storage · dynamic provisioning</text>
+
+  <!-- Key features card -->
+  <g filter="url(#shadow)">
+    <rect x="270" y="570" width="370" height="250" rx="16" fill="#131f3d" stroke="#2f4378" stroke-width="1.5"/>
+  </g>
+  <text x="295" y="605" font-size="16" font-weight="700" fill="#fff">What this project proves</text>
+  <g font-size="14" fill="#cfe0ff">
+    <text x="295" y="640"><tspan fill="#3ddc97" font-weight="700">✓</tspan>  Data survives pod restarts (PVC + NFS)</text>
+    <text x="295" y="672"><tspan fill="#3ddc97" font-weight="700">✓</tspan>  Credentials kept out of Git (Secret)</text>
+    <text x="295" y="704"><tspan fill="#3ddc97" font-weight="700">✓</tspan>  Self-healing via readiness / liveness</text>
+    <text x="295" y="736"><tspan fill="#3ddc97" font-weight="700">✓</tspan>  Scales 1 → 3 pods on CPU load (HPA)</text>
+    <text x="295" y="768"><tspan fill="#3ddc97" font-weight="700">✓</tspan>  DB never exposed outside the cluster</text>
+    <text x="295" y="800"><tspan fill="#3ddc97" font-weight="700">✓</tspan>  HTTPS at the edge via OpenShift Route</text>
+  </g>
+
+  <!-- Footer tags -->
+  <g font-size="14" font-weight="600" text-anchor="middle">
+    <rect x="60" y="862" width="140" height="26" rx="13" fill="#2a0f12" stroke="#ee0000"/><text x="130" y="880" fill="#ff8a7a">OpenShift</text>
+    <rect x="212" y="862" width="130" height="26" rx="13" fill="#10234a" stroke="#4aa3ff"/><text x="277" y="880" fill="#9ccdff">Kubernetes</text>
+    <rect x="354" y="862" width="110" height="26" rx="13" fill="#10234a" stroke="#4aa3ff"/><text x="409" y="880" fill="#9ccdff">WordPress</text>
+    <rect x="476" y="862" width="90" height="26" rx="13" fill="#2a1630" stroke="#d46bff"/><text x="521" y="880" fill="#e6a4ff">MySQL</text>
+    <rect x="578" y="862" width="80" height="26" rx="13" fill="#0f3d33" stroke="#3ddc97"/><text x="618" y="880" fill="#a6ecd0">NFS</text>
+    <rect x="670" y="862" width="80" height="26" rx="13" fill="#0f3d33" stroke="#3ddc97"/><text x="710" y="880" fill="#a6ecd0">PVC</text>
+    <rect x="762" y="862" width="100" height="26" rx="13" fill="#3a2a0a" stroke="#f5b942"/><text x="812" y="880" fill="#f5b942">Secrets</text>
+    <rect x="874" y="862" width="70" height="26" rx="13" fill="#3a2a0a" stroke="#f5b942"/><text x="909" y="880" fill="#f5b942">HPA</text>
+  </g>
+</svg>
